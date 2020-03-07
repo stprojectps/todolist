@@ -1,0 +1,127 @@
+@abstarct:
+    This is a ToDo list which be used to create, edit and remove ToDos.
+    A Todo is characterized by his identifiant, title, the date of creation, his status and the tasks to do.
+    The status of Todo shows if the Todo is completed or not
+    Todos may not have tasks and can have many tasks.
+    Task also can be created, edited, removed and marked as done as a Todo
+
+    Graphical interface (GTK+)
+    Datas will be save a database (SQlite)
+
+
+@PART 1: BACK END
+
+    @@Structures:
+
+        - Structure ToDo
+
+            struct __todo{
+                int    id;
+                char*  title;
+                char*  description;   
+                char   created_at;
+                char*  end_at;
+                int    status; 
+                task*  tasks; 
+            }
+            typedef struct __todo* Todo;
+
+        - Structure Task
+
+            struct __task{
+                int   id;
+                char* title; 
+                char* description;
+                char  created_at;
+                char  end_at;
+                int   status;
+            }
+            typedef struct __task* Task;
+    
+    @@Functionalities
+        @Todo functions
+            -[] Function to initialize a Todo
+                -@return{Todo}    An empty Todo
+                Todo init_todo();
+
+            -[] Function to destroy a Todo in memory
+                -@param{Todo}     An Todo
+                void free_todo(Todo);
+
+            -[] Function to get a Todo id
+                -@param{Todo}   An Todo
+                -@return{int}   Id of the Todo
+                int getId(Todo);
+
+            -[] Function to get a Todo title
+                -@param{Todo}    An Todo
+                -@return{char*}  Title of the Todo
+                char* getTitle(Todo);
+
+            -[] Function to set a Todo title
+                -@param{Todo}    An Todo
+                -@param{char*}   New title of the Todo
+                void setTitle(Todo,char);
+
+            -[] Function to get a Todo description
+                -@param{Todo}    An Todo
+                -@return{char*}  Description of the Todo
+                char* getDescription(Todo);
+
+            -[] Function to set a Todo description
+                -@param{Todo}    An Todo
+                -@param{char*}   New description of the Todo
+                void setDescription(Todo,char);
+
+            -[] Function to get the creation date of a Todo
+                -@param{Todo}   An Todo
+                -@return{char}  Creation date of the Todo
+                char getCreatedAt(Todo);
+
+            -[] Function to set the creation date of a Todo
+                -@param{Todo}   An Todo
+                -@param{char}   Creation date of the Todo
+                void setCreatedAt(Todo,char);
+
+            -[] Function to get the deadline of a Todo
+                -@param{Todo}   An Todo
+                -@return{char}  deadline of the Todo
+                char getDeadline(Todo);
+
+            -[] Function to set the deadline a Todo
+                -@param{Todo}   An Todo
+                -@param{char}  deadline of the Todo
+                void setDeadline(Todo,char);
+
+            -[] Function to get a Todo status
+                -@param{Todo}   An Todo
+                -@return{int}  status of the Todo(1 if it's completed 0 otherwise)
+                int getStatus(Todo);
+
+            -[] Function to set a Todo status
+                -@param{Todo}   An Todo
+                -@param{int}    Status of the Todo (1 if it's completed 0 otherwise)
+                void setStatus(Todo,int);            
+
+            -[] Function to get a Todo tasks
+                -@param{Todo}    An Todo
+                -@return{Task*}  Tasks of the Todo
+                Task* getTasks(Todo);
+
+            -[] Function to set a Todo tasks
+                -@param{Todo}     An Todo
+                -@param{tasks*}   Tasks
+                void setTasks(Todo,int);
+
+            -[] Function to set a Todo task
+                -@param{Todo}     An Todo
+                -@param{Task}     Task 
+                -@param{int}      Task position
+                void setTask(Todo,Task,int); 
+
+        -[] Function to verify a date
+            -@paran{char}     an supposed date in string format
+            -@return{int}     1 if it's valid date, 0 otherwise 
+            int date_verify(char);
+
+        
