@@ -6,122 +6,297 @@
     Task also can be created, edited, removed and marked as done as a Todo
 
     Graphical interface (GTK+)
-    Datas will be save a database (SQlite)
+    Data will be saved in database (SQlite)
 
 
 @PART 1: BACK END
 
     @@Structures:
+        
+        -Structure Database
+            # TABLE TODO(
+                ID INT ,
+                TITLE VARCHAR(100),
+                DESC VARCHAR(255),   
+                CREATED_AT DATETIME DEFAULT CURENT_TIMESTAMP,
+                ENDED_AT DATETIME,
+                STATUS BIT,
+                PRIMARY KEY (ID), 
+            );
+
+            # TABLE TASKE(
+                ID INT NOT_NUL,
+                TITLE VARCHAR(100),
+                DESC VARCHAR(255), 
+                TODO_ID INT REFERENCES TODO(ID),  
+                CREATED_AT DATETIME DEFAULT CURENT_TIMESTAMP,
+                ENDED_AT DATETIME,
+                STATUS BIT;
+                PRIMARY KEY (ID),
+            )
+                
+            
 
         - Structure ToDo
 
             struct __todo{
-                int    id;
-                char*  title;
-                char*  description;   
-                char   created_at;
-                char*  end_at;
-                int    status; 
-                task*  tasks; 
+                int     id;
+                int     len;
+                char*   title;
+                char*   desc;   
+                time_t  created_at;
+                time_t  ended_at;
+                int     status; 
+                task*   tasks; 
             }
             typedef struct __todo* Todo;
 
         - Structure Task
 
             struct __task{
-                int   id;
-                char* title; 
-                char* description;
-                char  created_at;
-                char  end_at;
-                int   status;
+                int      id;
+                char*    title; 
+                char*    desc;
+                time_t   created_at;
+                time_t   ended_at;
+                int      status;
             }
             typedef struct __task* Task;
+
+        - Status code
+
+        enum STATUS_CODE{
+            added,
+            updated,
+            deleted,
+            error,
+        }
     
     @@Functionalities
         @Todo functions
             -[] Function to initialize a Todo
                 -@return{Todo}    An empty Todo
-                Todo init_todo();
+                Todo todoInit();
 
             -[] Function to destroy a Todo in memory
                 -@param{Todo}     An Todo
-                void free_todo(Todo);
+                -@return{enum STATUS_CODE}    STATUS_CODE
+                enum STATUS_CODE todoDestroy(Todo);
+
+            -[] Function to delete a Todo
+                -@param          An Todo
+                -@return{enum STATUS_CODE}   STATUS_CODE
+                enum STATUS_CODE todoDelete(Todo);
 
             -[] Function to get a Todo id
                 -@param{Todo}   An Todo
-                -@return{int}   Id of the Todo
-                int getId(Todo);
+                -@return{const int}   Id of the Todo
+                const int todoGetId(Todo);
 
             -[] Function to get a Todo title
                 -@param{Todo}    An Todo
-                -@return{char*}  Title of the Todo
-                char* getTitle(Todo);
+                -@return{const char*}  Title of the Todo
+                const char* todoGetTitle(Todo);
 
             -[] Function to set a Todo title
                 -@param{Todo}    An Todo
-                -@param{char*}   New title of the Todo
-                void setTitle(Todo,char);
+                -@param{const char*}   New title of the Todo
+                -@return{enum STATUS_CODE}    STATUS_CODE
+                enum STATUS_CODE todoSetTitle(Todo,char*);
 
             -[] Function to get a Todo description
                 -@param{Todo}    An Todo
-                -@return{char*}  Description of the Todo
-                char* getDescription(Todo);
+                -@return{const char*}  Description of the Todo
+                const char* todoGetDesc(Todo);
 
             -[] Function to set a Todo description
                 -@param{Todo}    An Todo
-                -@param{char*}   New description of the Todo
-                void setDescription(Todo,char);
+                -@param{const char*}   New description of the Todo
+                -@return{enum  STATUS_CODE}     STATUS_CODE
+                enum STATUS_CODE todoSetDesc(Todo,char*);
 
             -[] Function to get the creation date of a Todo
                 -@param{Todo}   An Todo
-                -@return{char}  Creation date of the Todo
-                char getCreatedAt(Todo);
+                -@return{const time_t}  Creation date of the Todo
+                const time_t todoGetCreatedAt(Todo);
 
             -[] Function to set the creation date of a Todo
                 -@param{Todo}   An Todo
-                -@param{char}   Creation date of the Todo
-                void setCreatedAt(Todo,char);
+                -@param{const time_t}   Creation date of the Todo
+                -@return{enum STATUS_CODE}    STATUS_CODE
+                enum STATUS_CODE todoSetCreatedAt(Todo,time_t);
 
             -[] Function to get the deadline of a Todo
-                -@param{Todo}   An Todo
-                -@return{char}  deadline of the Todo
-                char getDeadline(Todo);
+                -@param{Todo}     An Todo
+                -@return{const time_t}  deadline of the Todo
+                const time_t todoGetDeadline(Todo);
 
             -[] Function to set the deadline a Todo
-                -@param{Todo}   An Todo
-                -@param{char}  deadline of the Todo
-                void setDeadline(Todo,char);
+                -@param{Todo}       An Todo
+                -@param{const time_t}     deadline of the Todo
+                -@return{enum STATUS_CODE}      STATUS_CODE
+                enum STATUS_CODE todosetDeadline(Todo,char);
 
             -[] Function to get a Todo status
                 -@param{Todo}   An Todo
-                -@return{int}  status of the Todo(1 if it's completed 0 otherwise)
-                int getStatus(Todo);
+                -@return{const int}   status of the Todo(1 if it's completed 0 otherwise)
+                const int todoGetStatus(Todo);
 
             -[] Function to set a Todo status
                 -@param{Todo}   An Todo
-                -@param{int}    Status of the Todo (1 if it's completed 0 otherwise)
-                void setStatus(Todo,int);            
+                -@param{const int}    Status of the Todo (1 if it's completed 0 otherwise)
+                -@return{enum STATUS_CODE}      STATUS_CODE
+                enum STATUS_CODE todoSetStatus(Todo,int);            
 
             -[] Function to get a Todo tasks
-                -@param{Todo}    An Todo
-                -@return{Task*}  Tasks of the Todo
-                Task* getTasks(Todo);
+                -@param{Todo}           An Todo
+                -@return{const Task*}   Tasks of the Todo
+                const Task* todoGetTasks(Todo);
 
-            -[] Function to set a Todo tasks
+            -[] Function to get a Todo task
+                -@param{Todo}           An Todo
+                -@param{int}            id task
+                -@return{const Task}    Task of the Todo
+                const Task todoGetTask(Todo,int);
+
+            -[] Function to add a Todo task
                 -@param{Todo}     An Todo
-                -@param{tasks*}   Tasks
-                void setTasks(Todo,int);
+                -@param{Task}     Task
+                -@return{enum STATUS_CODE}    STATUS_CODE
+                enum STATUS_CODE void todoAddTask(Todo,Task); 
 
-            -[] Function to set a Todo task
-                -@param{Todo}     An Todo
-                -@param{Task}     Task 
-                -@param{int}      Task position
-                void setTask(Todo,Task,int); 
+            -[] Function to delete a Todo task
+                -@param{Todo}       An Todo
+                -@param{Task}       Task
+                -@return{enum STATUS_CODE}      STATUS_CODE
+                enum STATUS_CODE todoDeleteTask(Todo,Task);
 
-        -[] Function to verify a date
-            -@paran{char}     an supposed date in string format
-            -@return{int}     1 if it's valid date, 0 otherwise 
-            int date_verify(char);
+        @Task functions
+            -[] Function to initialize a Task
+                -@return{Task}    An empty Task
+                Task taskInit();
 
-        
+            -[] Function to destroy a Task in memory
+                -@param{Task}                       An Task
+                -@return{enum STATUS_CODE}          STATUS_CODE
+                enum STATUS_CODE taskDestroy(Task);
+
+            -[] Function to get a Task id
+                -@param{Task}               An Task
+                -@return{const int}         Id of the Task
+                const int taskGetId(Task);
+
+            -[] Function to get a Task title
+                -@param{Task}                   An Task
+                -@return{const char*}           Title of the Task
+                const char* taskGetTitle(Task);
+
+            -[] Function to set a Task title
+                -@param{Task}                               An Task
+                -@param{const char*}                        Newtitle of the Task
+                -@return{enum STATUS_CODE}                 STATUS_CODE
+                enum STATUS_CODE taskSetTitle(Task,char*);
+
+            -[] Function to get a Task description
+                -@param{Task}                    An Task
+                -@return{const char*}            Description of theTask
+                const char* taskGetDesc(Task);
+
+            -[] Function to set a Task description
+                -@param{Task}                               An Task
+                -@param{const char*}                        Newdescription of the Task
+                -@return{enum  STATUS_CODE}                STATUS_CODE
+                enum STATUS_CODE taskSetDesc(Task,char*);
+
+            -[] Function to get the creation date of a Task
+                -@param{Task}   An Task
+                -@return{const time_t}  Creation date of the Task
+                const time_t taskGetCreatedAt(Task);
+
+            -[] Function to set the creation date of a Task
+                -@param{Task}               An Task
+                -@param{const time_t}       Creation date of the Task
+                -@return{enum STATUS_CODE}  STATUS_CODE
+                enum STATUS_CODE taskSetCreatedAt(Task,time_t);
+
+            -[] Function to get the deadline of a Task
+                -@param{Task}                   An Task
+                -@return{const time_t}          deadline of the Task
+                const time_t taskGetDeadline(Task);
+
+            -[] Function to set the deadline a Task
+                -@param{Task}       An Task
+                -@param{const time_t}     deadline of the Task
+                -@return{enum STATUS_CODE}      STATUS_CODE
+                enum STATUS_CODE tasksetDeadline(Task,char);
+
+            -[] Function to get a Task status
+                -@param{Task}   An Task
+                -@return{const int}   status of the Task(1 if it'scompleted 0 otherwise)
+                const int taskGetStatus(Task);
+
+            -[] Function to set a Task status
+                -@param{Task}   An Task
+                -@param{const int}    Status of the Task (1 if it'scompleted 0 otherwise)
+                -@return{enum STATUS_CODE}      STATUS_CODE
+                enum STATUS_CODE todoSetStatus(Todo,int); 
+
+        @Database Functions
+            #General Functions
+                -[] Function to open  database and creates it if it does not exist
+                    -@param{const char*}                Name of the database
+                    -@param{sqlite3**}                   Database Connection Handle
+                    -@return{enum STATUS_CODE}          STATUS_CODE
+                    enum STATUS_CODE dbOpen(char*,sqlite3**); 
+
+                -[] Function to close database
+                    -@param{sqlite3*}                   Sqlite3 Connection object
+                    -@return{enum STATUS_CODE}          STATUS_CODE
+                    enum STATUS_CODE dbClose(sqlite3*);
+
+            #Todo Functions
+                -[] Function to add a Todo
+                    -@param{Todo}               An Todo
+                    -@return{enum STATUS_CODE}  STATUS_CODE
+                    enum STATUS_CODE dbAddTodo(Todo);
+
+                -[] Function to update a Todo
+                    -@param{Todo}               An Todo
+                    -@return{enum STATUS_CODE}  STATUS_CODE
+                    enum STATUS_CODE dbAddTodo(Todo);               
+
+                -[] Function to delete a Todo
+                    -@param{Todo}               An Todo
+                    -@return{enum STATUS_CODE}  STATUS_CODE
+                    enum STATUS_CODE dbAddTodo(Todo);
+
+                -[] Function to select all Todos
+                    -@return{Todo*}     List of todos
+                    Todo* dbFetchAllTodos();
+
+            #Tasks Functions
+                -[] Function to add a Task
+                    -@param{Task}               An Task
+                    -@return{enum STATUS_CODE}  STATUS_CODE
+                    enum STATUS_CODE dbAddTask(Task);
+
+                -[] Function to update a Task
+                    -@param{Task}               An Task
+                    -@return{enum STATUS_CODE}  STATUS_CODE
+                    enum STATUS_CODE dbAddTask(Task);               
+
+                -[] Function to delete a Task
+                    -@param{Task}               An Task
+                    -@return{enum STATUS_CODE}  STATUS_CODE
+                    enum STATUS_CODE dbAddTask(Task);
+
+                -[] Function to delete all Todo's Tasks
+                    -@param{Todo}               An Todo
+                    -@return{enum STATUS_CODE}  STATUS_CODE
+                    enum STATUS_CODE dbAddTask(Task);
+
+                -[] Function to select all Todo's tasks 
+                    -@param{Todo}           An Todo
+                    -@return{Task *}        Tasks of a Todo
+
+
