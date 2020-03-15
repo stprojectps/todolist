@@ -136,6 +136,7 @@
                 ERR_MAX_TITLE,
                 ERR_MAX_DESC,
                 ERR_SQLR_MAX,
+                ERR_TODO_DEST,
                 ERR_UNKNOWN,
                 TASK_ADDED,
                 TASK_DELETED,
@@ -143,6 +144,7 @@
                 TODO_ADDED,
                 TODO_DELETED,
                 TODO_UPDATED,
+                TODO_DESTROYED,
                 SQLR_COMPOSED,
                 OPERATION_ERROR,
             }
