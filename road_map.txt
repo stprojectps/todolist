@@ -39,64 +39,64 @@
             -[] Function that composes sql request. The sql request is a format
                 string. For the format string %s and %d are supported.
                 -@param{const char*}                SQL request format string
-                enum STATUS_CODE sqlComposeRequest(const char*, ...);
+                enum STATUS_CODE dbComposeRequest(const char*, ...);
 
             -[] Function to open  database and creates it if it does not exist
-                -@param{const char*}                Name of the database
-                -@param{sqlite3**}                  Database Connection Handle
                 -@return{enum STATUS_CODE}          STATUS_CODE
-                enum STATUS_CODE dbOpen(const char*, sqlite3**);
+                static enum STATUS_CODE dbOpen(void);
 
             -[] Function to close database
                 -@param{sqlite3*}                   Sqlite3 Connection object
                 -@return{enum STATUS_CODE}          STATUS_CODE
-                enum STATUS_CODE dbClose(sqlite3*);
+                static enum STATUS_CODE dbClose(void);
 
         #Todo Functions
             -[] Function to add a Todo
                 -@param{Todo}               A Todo
                 -@return{enum STATUS_CODE}  STATUS_CODE
-                enum STATUS_CODE dbAddTodo(Todo);
+                enum STATUS_CODE dbAddTodo(const Todo);
 
             -[] Function to update a Todo
                 -@param{Todo}               A Todo
+                -@param{unsigned int}       update flag
                 -@return{enum STATUS_CODE}  STATUS_CODE
-                enum STATUS_CODE dbUpdateTodo(Todo);
+                enum STATUS_CODE dbUpdateTodo(const Todo, const unsigned int);
 
             -[] Function to delete a Todo
-                -@param{Todo}               A Todo
+                -@param{unsigned int}       todo identifier
                 -@return{enum STATUS_CODE}  STATUS_CODE
-                enum STATUS_CODE dbDeleteTodo(Todo);
+                enum STATUS_CODE dbDeleteTodo(const unsigned int);
 
             -[] Function to select all Todos
                 -@return{Todo*}     List of todos
-                Todo* dbFetchAllTodos();
+                Todo* dbFetchAllTodos(void);
 
         #Tasks Functions
             -[] Function to add a Task
                 -@param{Task}               A Task
                 -@return{enum STATUS_CODE}  STATUS_CODE
-                enum STATUS_CODE dbAddTask(Task);
+                enum STATUS_CODE dbAddTask(const Task);
 
             -[] Function to update a Task
                 -@param{Task}               A Task
+                -@param{unsigned int}       update flag
                 -@return{enum STATUS_CODE}  STATUS_CODE
-                enum STATUS_CODE dbUpdateTask(Task);
+                enum STATUS_CODE dbUpdateTask(const Task, const unsigned int);
 
             -[] Function to delete a Task
-                -@param{Task}               A Task
+                -@param{unsigned int}       task identifier
                 -@return{enum STATUS_CODE}  STATUS_CODE
-                enum STATUS_CODE dbDeleteTask(Task);
+                enum STATUS_CODE dbDeleteTask(const unsigned int);
 
             -[] Function to delete all Todo's Tasks
-                -@param{Todo}               A Todo
+                -@param{unsigned int}       todo identifier
                 -@return{enum STATUS_CODE}  STATUS_CODE
-                enum STATUS_CODE dbDeleteAllTasks(Task);
+                enum STATUS_CODE dbDeleteAllTasks(const unsigned int);
 
             -[] Function to select all Todo's tasks
-                -@param{unsigned int}   An Todo's id
+                -@param{unsigned int}   A Todo's id
                 -@return{Task *}        Tasks of a Todo
-                Task* dbFetchAllTasks(unsigned int);
+                Task* dbFetchAllTasks(const unsigned int);
 
 
     @@Structures:
@@ -146,7 +146,8 @@
                 TODO_UPDATED,
                 TODO_DESTROYED,
                 SQLR_COMPOSED,
-                OPERATION_ERROR,
+                DB_CLOSED,
+                DB_OPENED
             }
 
     @@Functionalities
