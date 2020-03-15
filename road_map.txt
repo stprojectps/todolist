@@ -104,39 +104,46 @@
         - Structure ToDo
 
             struct __todo{
-                int     id;
-                int     len;
-                char*   title;
-                char*   desc;
-                time_t  created_at;
-                time_t  ended_at;
-                int     status;
-                Task*   tasks;
+                unsigned int    id;
+                unsigned int    len;
+                char            title[100];
+                char            desc[255];
+                time_t          created_at;
+                time_t          modified_at;
+                time_t          ended_at;
+                unsigned short  status;
+                Task            tasks[20];
             }
             typedef struct __todo* Todo;
 
         - Structure Task
 
             struct __task{
-                int      id;
-                char*    title;
-                char*    desc;
-                time_t   created_at;
-                time_t   ended_at;
-                int      status;
+                unsigned int    id;
+                char            title[100];
+                char            desc[255];
+                time_t          created_at;
+                time_t          modified_at;
+                time_t          ended_at;
+                unsigned short  status;
             }
             typedef struct __task* Task;
 
         - Status code
 
             enum STATUS_CODE {
+                ERR_MAX_TASK,
+                ERR_MAX_TITLE,
+                ERR_MAX_DESC,
+                ERR_SQLR_MAX,
+                ERR_UNKNOWN,
                 TASK_ADDED,
                 TASK_DELETED,
                 TASK_UPDATED,
                 TODO_ADDED,
                 TODO_DELETED,
                 TODO_UPDATED,
-                SQL_COMPOSE_SUCCESS,
+                SQLR_COMPOSED,
                 OPERATION_ERROR,
             }
 
