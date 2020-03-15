@@ -72,8 +72,9 @@
 
 /********************** STRUCTURES AND ENUMS ***************************/
 
-/*
- * Represents a task
+/**
+ *@brief Represents a task
+ *
  */
 struct __task
 {
@@ -84,23 +85,23 @@ struct __task
     time_t modified_at;         /* task last modification date */
     time_t ended_at;            /* task expiration date */
     unsigned short status;      /* task status*/
-}
+};
 
-/*
- * Represents a todo list
+/**
+ *@brief Represents a todo list
  */
 struct __todo
 {
-    unsigned int id;            /* todo identifier */
-    unsigned int len;           /* todo length. Number of tasks */
-    char title[MAX_TITLE];      /* todo title */
-    char desc[MAX_DESC];        /* todo description */
-    time_t created_at;          /* todo creation date */
-    time_t modified_at;         /* todo last modification date */
-    time_t ended_at;            /* todo expiration date */
-    unsigned short status;      /* todo status */
-    struct __task[MAX_TASKS];   /* todo tasks */
-}
+    unsigned int id;                 /* todo identifier */
+    unsigned int len;                /* todo length. Number of tasks */
+    char title[MAX_TITLE];           /* todo title */
+    char desc[MAX_DESC];             /* todo description */
+    time_t created_at;               /* todo creation date */
+    time_t modified_at;              /* todo last modification date */
+    time_t ended_at;                 /* todo expiration date */
+    unsigned short status;           /* todo status */
+    struct __task Task[MAX_TASKS];   /* todo tasks */
+};
 
 /*
  * Different status codes for function
@@ -123,10 +124,11 @@ enum STATUS_CODE
     TODO_ADDED,
     TODO_DELETED,
     TODO_UPDATED,
+    TODO_DESTROYED,
 
     /* related to sql */
     SQLR_COMPOSED
-}
+};
 
 /************************** TYPE DEFINITIONS ***************************/
 typedef struct __task* Task;
