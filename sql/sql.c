@@ -12,13 +12,6 @@ static char *sql_errmsg;
 static char sql_req[SQLR_MAX];
 
 /************************** PRIVATE FUNCTIONS **************************/
-static enum STATUS_CODE dbClose(void)
-{
-    if((sqlite3_close(db)) != SQLITE_OK) { return DB_CLOSED; }
-
-    return ERR_UNKNOWN;
-}
-
 static enum STATUS_CODE
 dbComposeRequest(const char* _genetic_request, ...)
 {
@@ -66,10 +59,11 @@ static enum STATUS_CODE dbInit(void)
 
     if((dbComposeRequest(SQLR_CREATET_TASK)) != SQLR_COMPOSED)
     {
+        printf("");
         return ERR_UNKNOWN;
     }
 
-    if((sqlite3_exec(db, sql_req, NULL, NULL, &sql_errmsg) != SQLITE_OK)
+    if((sqlite3_exec(db, sql_req, NULL, NULL, &sql_errmsg)) != SQLITE_OK)
     {
         return ERR_UNKNOWN;
     }
@@ -79,8 +73,55 @@ static enum STATUS_CODE dbInit(void)
         return ERR_UNKNOWN;
     }
 
-    if((sqlite3_exec(db, sql_req, NULL, NULL, &sql_errmsg) != SQLITE_OK)
+    if((sqlite3_exec(db, sql_req, NULL, NULL, &sql_errmsg)) != SQLITE_OK)
     {
         return ERR_UNKNOWN;
     }
+    
+    return DB_INITIALIZED;
 }
+
+/************************* PUBLIC FUNCTIONS ****************************/
+enum STATUS_CODE dbClose(void)
+{
+    if((sqlite3_close(db)) != SQLITE_OK) { return DB_CLOSED; }
+    return ERR_UNKNOWN;
+}
+
+enum STATUS_CODE dbOpen(void)
+{
+    int
+    result,
+    init;
+    FILE* fp;
+    fp = fopen(DBNAME, "r");
+
+    /* DATABASE DOES NOT EXIST SO NOT INITIALIZED */
+    if(fp == NULL)
+    {
+        init = 0;
+    }
+    else
+    {
+        init = 1;
+        fclose(fp);
+    }
+
+    /* Open/Create database */
+    result = sqlite3_open(DBNAME, &db);
+    if(result != SQLITE_OK)
+    {
+        printf("Failed to opened database\n");
+        return ERR_UNKNOWN;
+    }
+
+    /* Initializes database */
+    if(!init)
+    {
+        return (dbInit() == DB_INITIALIZED) ? DB_OPENED : ERR_UNKNOWN;
+    }
+
+    return DB_OPENED;
+}
+
+/* ------------------------------------------------------------------- */
