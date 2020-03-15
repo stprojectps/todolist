@@ -15,7 +15,6 @@
  * @param _n: number of bytes to fill with '\0'.
  * @return the memory area pointed to by _s.
  */
-inline void* tools_memop_bzero(void *_s, size_t _n)
-{ return memset(_s, '\0', _n); }
+void* tools_memop_bzero(void *_s, size_t _n);
 
 #endif /* H__TOOLS__H */
