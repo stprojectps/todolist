@@ -145,7 +145,6 @@
                 TASK_DELETED,
                 TASK_UPDATED,
                 TODO_ADDED,
-                TODO_DELETED,
                 TODO_DESTROYED,
                 TODO_UPDATED,
                 SQLR_COMPOSED,
@@ -156,102 +155,102 @@
 
     @@Functionalities
         @Todo functions
-            -[] Function to initialize a Todo
+            -[x] Function to initialize a Todo
                 -@return{Todo}    An empty Todo
                 Todo todoInit();
 
-            -[] Function to destroy a Todo in memory
+            -[x] Function to destroy a Todo in memory
                 -@param{Todo}     A Todo
                 -@return{enum STATUS_CODE}    STATUS_CODE
                 enum STATUS_CODE todoDestroy(Todo);
 
-            -[] Function to delete a Todo
+            -[x] Function to delete a Todo
                 -@param          A Todo
                 -@return{enum STATUS_CODE}   STATUS_CODE
                 enum STATUS_CODE todoDelete(Todo);
 
-            -[] Function to set a Todo title
+            -[x] Function to set a Todo title
                 -@param{Todo}    A Todo
                 -@param{const char*}   New title of the Todo
                 -@return{enum STATUS_CODE}    STATUS_CODE
                 enum STATUS_CODE todoSetTitle(Todo, const char*);
 
-            -[] Function to set a Todo description
+            -[x] Function to set a Todo description
                 -@param{Todo}    A Todo
                 -@param{const char*}   New description of the Todo
                 -@return{enum  STATUS_CODE}     STATUS_CODE
                 enum STATUS_CODE todoSetDesc(Todo, const char*);
 
-            -[] Function to set the creation date of a Todo
+            -[x] Function to set the creation date of a Todo
                 -@param{Todo}   A Todo
                 -@param{const time_t}   Creation date of the Todo
                 -@return{enum STATUS_CODE}    STATUS_CODE
                 enum STATUS_CODE todoSetCreatedAt(Todo, const time_t);
 
-            -[] Function to set the deadline a Todo
+            -[x] Function to set the deadline a Todo
                 -@param{Todo}       A Todo
                 -@param{const time_t}     deadline of the Todo
                 -@return{enum STATUS_CODE}      STATUS_CODE
                 enum STATUS_CODE todoSetDeadline(Todo, const time_t);
 
-            -[] Function to set a Todo status
+            -[x] Function to set a Todo status
                 -@param{Todo}   A Todo
                 -@param{const int}    Status of the Todo (1 if it's completed 0 otherwise)
                 -@return{enum STATUS_CODE}      STATUS_CODE
                 enum STATUS_CODE todoSetStatus(Todo, const int);
 
-            -[] Function to set a Todo length
+            -[x] Function to set a Todo length
                 -@param{Todo}               todo list
                 -@param{cons unsigned int}  new length
                 enum STATUS_CODE todoSetLength(Todo, const unsigned int);
 
-            -[] Function to add a Todo task
+            -[x] Function to add a Todo task
                 -@param{Todo}     A Todo
                 -@param{const Task}     Task
                 -@return{enum STATUS_CODE}    STATUS_CODE
                 enum STATUS_CODE void todoAddTask(Todo, const Task);
 
-            -[] Function to delete a Todo task
+            -[x] Function to delete a Todo task
                 -@param{Todo}       A Todo
                 -@param{Task}       task to delete
                 -@return{enum STATUS_CODE}      STATUS_CODE
                 enum STATUS_CODE todoDeleteTask(Todo, Task);
 
         @Task functions
-            -[] Function to initialize a Task
+            -[x] Function to initialize a Task
                 -@return{Task}    An empty Task
                 Task taskInit();
 
-            -[] Function to destroy a Task in memory
+            -[-] Function to destroy a Task in memory
                 -@param{Task}                       A Task
                 -@return{enum STATUS_CODE}          STATUS_CODE
                 enum STATUS_CODE taskDestroy(Task);
 
-            -[] Function to set a Task title
+            -[-] Function to set a Task title
                 -@param{Task}                               A Task
                 -@param{const char*}                        Newtitle of the Task
                 -@return{enum STATUS_CODE}                  STATUS_CODE
                 enum STATUS_CODE taskSetTitle(Task, const char*);
 
-            -[] Function to set a Task description
+            -[-] Function to set a Task description
                 -@param{Task}                               A Task
                 -@param{const char*}                        Newdescription of the Task
                 -@return{enum  STATUS_CODE}                 STATUS_CODE
                 enum STATUS_CODE taskSetDesc(Task, const char*);
 
-            -[] Function to set the creation date of a Task
+            -[-] Function to set the creation date of a Task
                 -@param{Task}               A Task
                 -@param{const time_t}       Creation date of the task
                 -@return{enum STATUS_CODE}  STATUS_CODE
                 enum STATUS_CODE taskSetCreatedAt(Task, const time_t);
 
-            -[] Function to set the deadline a Task
+            -[-] Function to set the deadline a Task
                 -@param{Task}       A Task
                 -@param{const time_t}     deadline of the Task
                 -@return{enum STATUS_CODE}      STATUS_CODE
                 enum STATUS_CODE taskSetDeadline(Task, const time_t);
 
-            -[] Function to set a Task status
+            -[-] Function to set a Task status
                 -@param{Task}   A Task
                 -@param{const int}    Status of the Task (1 if it'scompleted 0 otherwise)
                 -@return{enum STATUS_CODE}      STATUS_CODE

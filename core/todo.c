@@ -1,8 +1,9 @@
 #include <stdlib.h>
-#include <time.h>
 #include <string.h>
+#include <time.h>
 
 #include "../sql/sql.h"
+#include "task.h"
 #include "todo.h"
 
 
@@ -36,7 +37,7 @@ enum STATUS_CODE todoDelete(Todo _todo)
     {
         if (dbDeleteTodo(_todo->id) == TODO_DELETED)
         {
-            free(_todo);
+            todoDestroy(_todo);
             return TODO_DELETED;
         }
     } 
@@ -103,9 +104,12 @@ enum STATUS_CODE todoAddTask(Todo _todo, const Task _task)
 {
     if (_todo && _task)
     {
-        _todo->tasks[_todo->len] = *_task;
-        _todo->len += 1;
-        return TODO_UPDATED;
+        if (dbAddTask(_task))
+        {
+            _todo->tasks[_todo->len] = *_task;
+            _todo->len += 1;
+            return TASK_ADDED;
+        }
     }
 
     return ERR_TODO;
@@ -113,17 +117,14 @@ enum STATUS_CODE todoAddTask(Todo _todo, const Task _task)
 
 enum STATUS_CODE todoDeleteTask(Todo _todo, const Task _task)
 {
+    int task_found = 0;
     if (_todo && _task)
     {
-        for (int i = 0; i < _todo->len; i++)
+        for (int i = 1; i < _todo->len; i++)
         {
-            if (_todo->len == 1)
-            {
-                _todo->tasks[i] = _todo->tasks[i+1];
-                break;
-            }
             if (_todo->tasks[i].id == _task->id)
             {
+                task_found = 1;
                 for (int k = i+1; k < _todo->len; k++)
                 {
                     _todo->tasks[i] = _todo->tasks[k];
@@ -132,7 +133,29 @@ enum STATUS_CODE todoDeleteTask(Todo _todo, const Task _task)
                 break;
             }
         }
-        _todo->len -= 1;
+        if (_todo->tasks[0].id == _task->id || task_found == 1)
+        {
+            if (dbDeleteTask(_task->id) == TASK_DELETED)
+            {
+                _todo->len -= 1;
+                return TODO_UPDATED;
+            }
+        }
+    }
+
+    return ERR_TODO;
+}
+
+enum STATUS_CODE todoDeleteTasks(Todo _todo)
+{
+    Task T = taskInit(NULL);
+    if ((T && _todo) != NULL && dbDeleteAllTasks(_todo->id) == TASK_DELETED)
+    {
+        for (int i = 0; i < _todo->len; i++)
+        {
+            _todo->tasks[i] = *T;
+        }
+        _todo->len = 0;
         return TODO_UPDATED;
     }
 

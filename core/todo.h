@@ -1,12 +1,17 @@
 /****************************************************************************
  * Copyright (C) 2020 by SARR Pape Moussa & TAMBADOU Sidy
  *
- * This file is part of Box.
+ * This file is part of TodoList.
  *
- *   Box is free software: you can redistribute it and/or modify it
+ *   TodoList is free software: you can redistribute it and/or modify it
  *   under the terms of the GNU Lesser General Public License as published
- *   by the Free Software Foundation, either version 3 of the License, or
+ *   by STPROJECTPS, either version 1 of the License, or
  *   (at your option) any later version.
+ *   ToDo list can be used to create, edit and remove ToDos.
+ *   A Todo is characterized by his identifiant, title, the date of creation,
+ *   his status and the tasks to do. The status of Todo shows if the Todo 
+ *   is completed or notTodos may not have tasks and can have many tasks.
+ *   Task also can be created, edited, removed and marked as done as a Todo
  *
  ****************************************************************************/
 
@@ -14,12 +19,8 @@
  * @file todo.h
  * @authors SARR Pape Moussa & TAMBADOU Sidy
  * @date 15 March 2020
- * @brief File containing example of doxygen usage for quick reference.
- *
- * Here typically goes a more extensive explanation of what the header
- * defines. Doxygens tags are words preceeded by either a backslash @\
- * or by an at symbol @@.
- * @see http://
+ * @brief File containing todo usage for quick reference.
+ * 
  */
 
 #ifndef H_TODO_H
@@ -34,7 +35,7 @@
  *
  * Allocates memory to variable @c _todo and initializes @c _todo->id ,
  * @c _todo->len , @c _todo->created_at , @c _todo->modified_at ,
- * @c _todo->ended_at , and @c _todo->status to 0.
+ * @c _todo->ended_at and @c _todo->status to 0.
  * It returns @c Todo.
  * @code
  * Todo _todo = todoInit();
@@ -174,5 +175,26 @@ enum STATUS_CODE todoAddTask(Todo _todo, const Task _task);
  * @return @c STATUS_CODE ( @c TODO_UPDATED || @c ERR_TODO) is always returned.
  */
 enum STATUS_CODE todoDeleteTask(Todo _todo, const Task _task);
+
+/**
+ * @brief delete a Todo tasks.
+ * 
+ * Verifies if @param _todo and @c T which initialized Task are not @c NULL
+ * and @c dbDeleteAllTasks() deleted correctly all todo's task on database
+ * Finily reset @c _todo->len to 0. All the @c Todo's Tasks are deleted.
+ * @code
+ * if (todoDeleteTasks(_todo) == TODO_UPDATED)
+ * {
+ *    //Do something
+ * }
+ * else
+ * {
+ *    //Do something
+ * }
+ * @endcode
+ * @param _todo A Todo.
+ * @return @c STATUS_CODE ( @c TODO_UPDATED || @c ERR_TODO) is always returned.
+ */
+enum STATUS_CODE todoDeleteTasks(Todo _todo);
 
 #endif //H_TODO_H
