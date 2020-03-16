@@ -70,6 +70,7 @@ enum STATUS_CODE
     ERR_MAX_DESC,
     ERR_SQLR_MAX,
     ERR_UNKNOWN,
+    ERR_TODO,
 
     /* related to tasks */
     TASK_ADDED,
