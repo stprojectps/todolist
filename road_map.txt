@@ -42,6 +42,7 @@
                 static enum STATUS_CODE dbComposeRequest(const char*, ...);
 
             -[] Function that initializes database.
+                -@return{enum STATUS_CODE}          STATUS_CODE
                 static enum STATUS_CODE dbInit(void);
 
             -[] Function to open  database and creates it if it does not exist
@@ -138,12 +139,14 @@
                 ERR_MAX_TITLE,
                 ERR_MAX_DESC,
                 ERR_SQLR_MAX,
+                ERR_TODO,
                 ERR_UNKNOWN,
                 TASK_ADDED,
                 TASK_DELETED,
                 TASK_UPDATED,
                 TODO_ADDED,
                 TODO_DELETED,
+                TODO_DESTROYED,
                 TODO_UPDATED,
                 SQLR_COMPOSED,
                 DB_CLOSED,
@@ -167,26 +170,11 @@
                 -@return{enum STATUS_CODE}   STATUS_CODE
                 enum STATUS_CODE todoDelete(Todo);
 
-            -[] Function to get a Todo id
-                -@param{Todo}   A Todo
-                -@return{const int}   Id of the Todo
-                const int todoGetId(Todo);
-
-            -[] Function to get a Todo title
-                -@param{Todo}    A Todo
-                -@return{const char*}  Title of the Todo
-                const char* todoGetTitle(Todo);
-
             -[] Function to set a Todo title
                 -@param{Todo}    A Todo
                 -@param{const char*}   New title of the Todo
                 -@return{enum STATUS_CODE}    STATUS_CODE
                 enum STATUS_CODE todoSetTitle(Todo, const char*);
-
-            -[] Function to get a Todo description
-                -@param{Todo}    A Todo
-                -@return{const char*}  Description of the Todo
-                const char* todoGetDesc(Todo);
 
             -[] Function to set a Todo description
                 -@param{Todo}    A Todo
@@ -194,21 +182,11 @@
                 -@return{enum  STATUS_CODE}     STATUS_CODE
                 enum STATUS_CODE todoSetDesc(Todo, const char*);
 
-            -[] Function to get the creation date of a Todo
-                -@param{Todo}   A Todo
-                -@return{const time_t}  Creation date of the Todo
-                const time_t todoGetCreatedAt(Todo);
-
             -[] Function to set the creation date of a Todo
                 -@param{Todo}   A Todo
                 -@param{const time_t}   Creation date of the Todo
                 -@return{enum STATUS_CODE}    STATUS_CODE
                 enum STATUS_CODE todoSetCreatedAt(Todo, const time_t);
-
-            -[] Function to get the deadline of a Todo
-                -@param{Todo}     A Todo
-                -@return{const time_t}  deadline of the Todo
-                const time_t todoGetDeadline(Todo);
 
             -[] Function to set the deadline a Todo
                 -@param{Todo}       A Todo
@@ -216,27 +194,16 @@
                 -@return{enum STATUS_CODE}      STATUS_CODE
                 enum STATUS_CODE todoSetDeadline(Todo, const time_t);
 
-            -[] Function to get a Todo status
-                -@param{Todo}   A Todo
-                -@return{const int}   status of the Todo(1 if it's completed, 0 otherwise)
-                const int todoGetStatus(Todo);
-
             -[] Function to set a Todo status
                 -@param{Todo}   A Todo
                 -@param{const int}    Status of the Todo (1 if it's completed 0 otherwise)
                 -@return{enum STATUS_CODE}      STATUS_CODE
                 enum STATUS_CODE todoSetStatus(Todo, const int);
 
-            -[] Function to get a Todo tasks
-                -@param{Todo}           A Todo
-                -@return{const Task*}   Tasks of the Todo
-                const Task* todoGetTasks(Todo);
-
-            -[] Function to get a Todo task
-                -@param{Todo}           A Todo
-                -@param{int}            task
-                -@return{const Task}    Task of the Todo
-                const Task todoGetTask(Todo, const int);
+            -[] Function to set a Todo length
+                -@param{Todo}               todo list
+                -@param{cons unsigned int}  new length
+                enum STATUS_CODE todoSetLength(Todo, const unsigned int);
 
             -[] Function to add a Todo task
                 -@param{Todo}     A Todo
@@ -260,26 +227,11 @@
                 -@return{enum STATUS_CODE}          STATUS_CODE
                 enum STATUS_CODE taskDestroy(Task);
 
-            -[] Function to get a Task id
-                -@param{Task}               A Task
-                -@return{const int}         Id of the Task
-                const int taskGetId(Task);
-
-            -[] Function to get a Task title
-                -@param{Task}                   A Task
-                -@return{const char*}           Title of the Task
-                const char* taskGetTitle(Task);
-
             -[] Function to set a Task title
                 -@param{Task}                               A Task
                 -@param{const char*}                        Newtitle of the Task
                 -@return{enum STATUS_CODE}                  STATUS_CODE
                 enum STATUS_CODE taskSetTitle(Task, const char*);
-
-            -[] Function to get a Task description
-                -@param{Task}                    A Task
-                -@return{const char*}            Description of theTask
-                const char* taskGetDesc(Task);
 
             -[] Function to set a Task description
                 -@param{Task}                               A Task
@@ -287,21 +239,11 @@
                 -@return{enum  STATUS_CODE}                 STATUS_CODE
                 enum STATUS_CODE taskSetDesc(Task, const char*);
 
-            -[] Function to get the creation date of a Task
-                -@param{Task}   An Task
-                -@return{const time_t}  Creation date of the Task
-                const time_t taskGetCreatedAt(Task);
-
             -[] Function to set the creation date of a Task
                 -@param{Task}               A Task
                 -@param{const time_t}       Creation date of the task
                 -@return{enum STATUS_CODE}  STATUS_CODE
                 enum STATUS_CODE taskSetCreatedAt(Task, const time_t);
-
-            -[] Function to get the deadline of a Task
-                -@param{Task}                   A Task
-                -@return{const time_t}          deadline of the Task
-                const time_t taskGetDeadline(Task);
 
             -[] Function to set the deadline a Task
                 -@param{Task}       A Task
@@ -309,14 +251,8 @@
                 -@return{enum STATUS_CODE}      STATUS_CODE
                 enum STATUS_CODE taskSetDeadline(Task, const time_t);
 
-            -[] Function to get a Task status
-                -@param{Task}   A Task
-                -@return{const int}   status of the Task(1 if it'scompleted 0 otherwise)
-                const int taskGetStatus(Task);
-
             -[] Function to set a Task status
                 -@param{Task}   A Task
                 -@param{const int}    Status of the Task (1 if it'scompleted 0 otherwise)
                 -@return{enum STATUS_CODE}      STATUS_CODE
                 enum STATUS_CODE todoSetStatus(Todo, const int);
-
