@@ -125,3 +125,23 @@ enum STATUS_CODE dbOpen(void)
 }
 
 /* ------------------------------------------------------------------- */
+enum STATUS_CODE dbAddTask(const Task _task)
+{
+    dbOpen();
+    return TASK_ADDED;
+}
+
+enum STATUS_CODE dbDeleteTask(const unsigned int _task_id)
+{
+    return TASK_DELETED;
+}
+
+enum STATUS_CODE dbDeleteAllTasks(const unsigned int _todo_id)
+{
+    return TASK_DELETED;
+}
+
+enum STATUS_CODE dbDeleteTodo(const unsigned int _todo_id)
+{
+    return TODO_DELETED;
+}

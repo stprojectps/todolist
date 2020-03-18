@@ -78,6 +78,17 @@ enum STATUS_CODE todoSetCreatedAt(Todo _todo, const time_t _created_at)
     return ERR_TODO;
 }
 
+enum STATUS_CODE todoSetModifiedAt(Todo _todo, const time_t _modified_at)
+{
+    if (_todo)
+    {
+        _todo->modified_at = _modified_at;
+        return TODO_UPDATED;
+    }
+
+    return ERR_TODO;
+}
+
 enum STATUS_CODE todoSetDeadline(Todo _todo, const time_t _deadline)
 {
     if (_todo)
@@ -104,7 +115,7 @@ enum STATUS_CODE todoAddTask(Todo _todo, const Task _task)
 {
     if (_todo && _task)
     {
-        if (dbAddTask(_task))
+        if (dbAddTask(_task) == TASK_ADDED)
         {
             _todo->tasks[_todo->len] = *_task;
             _todo->len += 1;
@@ -135,6 +146,11 @@ enum STATUS_CODE todoDeleteTask(Todo _todo, const Task _task)
         }
         if (_todo->tasks[0].id == _task->id || task_found == 1)
         {
+            if (_todo->tasks[0].id == _task->id)
+            {
+                _todo->tasks[0] = *taskInit(NULL);
+            }
+            
             if (dbDeleteTask(_task->id) == TASK_DELETED)
             {
                 _todo->len -= 1;
@@ -148,15 +164,19 @@ enum STATUS_CODE todoDeleteTask(Todo _todo, const Task _task)
 
 enum STATUS_CODE todoDeleteTasks(Todo _todo)
 {
-    Task T = taskInit(NULL);
-    if ((T && _todo) != NULL && dbDeleteAllTasks(_todo->id) == TASK_DELETED)
+    if (_todo && dbDeleteAllTasks(_todo->id) == TASK_DELETED)
     {
-        for (int i = 0; i < _todo->len; i++)
+        Task T = taskInit(NULL);
+        if (T)
         {
-            _todo->tasks[i] = *T;
+            for (int i = 0; i < _todo->len; i++)
+            {
+                _todo->tasks[i] = *T;
+            }
+            _todo->len = 0;
+            taskDestroy(T);
+            return TODO_UPDATED;
         }
-        _todo->len = 0;
-        return TODO_UPDATED;
     }
 
     return ERR_TODO;

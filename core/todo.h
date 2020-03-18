@@ -113,6 +113,16 @@ enum STATUS_CODE todoSetDesc(Todo _todo, const char* _desc);
 enum STATUS_CODE todoSetCreatedAt(Todo _todo, const time_t _created_at);
 
 /**
+ * @brief set the modification date of a Todo.
+ * 
+ * 
+ * @param _todo A Todo.
+ * @param _modified_at an constant @c time_t to assign to the Modification date of @p _todo
+ * @return a @c STATUS_CODE 
+ */
+enum STATUS_CODE todoSetModifiedAt(Todo _todo, const time_t _modified_at);
+
+/**
  * @brief set the deadline of a Todo.
  * 
  * 

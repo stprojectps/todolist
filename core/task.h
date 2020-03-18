@@ -10,7 +10,7 @@
  *   ToDo list can be used to create, edit and remove ToDos.
  *   A Todo is characterized by his identifiant, title, the date of creation,
  *   his status and the tasks to do. The status of Todo shows if the Todo 
- *   is completed or notTodos may not have tasks and can have many tasks.
+ *   is completed or not. Todos may not have tasks and can have many tasks.
  *   Task also can be created, edited, removed and marked as done as a Todo
  *
  ****************************************************************************/
@@ -65,12 +65,31 @@ Task taskInit(Task _task);
 enum STATUS_CODE taskDestroy(Task _task);
 
 /**
+ * @brief delete a Task
+ *
+ * Deletes @param _task on database and desalocates it's memory if it is not @c NULL
+ * @code 
+ * if (taskDelete(_task) == TASK_DELETED)
+ * {
+ *    //Do something
+ * }
+ * else
+ * {
+ *    //Do something
+ * }
+ * @endcode
+ * @param _task A Task
+ * @return @c STATUS_CODE ( @c TASK_DELETED || @c ERR_TASK) is always returned.
+ */
+enum STATUS_CODE taskDelete(Task _task);
+
+/**
  * @brief set a Task title.
  * 
  * 
  * @param _task A Task.
  * @param _title an constant @c char* to assign to the Title of @p _task
- * @return a @c STATUS_CODE 
+ * @return a @c STATUS_CODE ( @c TASK_UPDATED || @c ERR_TASK) is always returned.
  */
 enum STATUS_CODE taskSetTitle(Task _task, const char* _title);
 
@@ -80,7 +99,7 @@ enum STATUS_CODE taskSetTitle(Task _task, const char* _title);
  * 
  * @param _task A Task.
  * @param _desc an constant @c char* to assign to the Description of @p _task
- * @return a @c STATUS_CODE 
+ * @return a @c STATUS_CODE ( @c TASK_UPDATED || @c ERR_TASK) is always returned.
  */
 enum STATUS_CODE taskSetDesc(Task _task, const char* _desc);
 
@@ -90,9 +109,19 @@ enum STATUS_CODE taskSetDesc(Task _task, const char* _desc);
  * 
  * @param _task A Task.
  * @param _created_at an constant @c time_t to assign to the Creation date of @p _task
- * @return a @c STATUS_CODE 
+ * @return a @c STATUS_CODE ( @c TASK_UPDATED || @c ERR_TASK) is always returned.
  */
 enum STATUS_CODE taskSetCreatedAt(Task _task, const time_t _created_at);
+
+/**
+ * @brief set the modification date of a Task.
+ * 
+ * 
+ * @param _task A Task.
+ * @param _modified_at an constant @c time_t to assign to the Modification date of @p _task
+ * @return a @c STATUS_CODE ( @c TASK_UPDATED || @c ERR_TASK) is always returned.
+ */
+enum STATUS_CODE taskSetModifiedAt(Task _task, const time_t _modified_at);
 
 /**
  * @brief set the deadline of a Task.
@@ -100,7 +129,7 @@ enum STATUS_CODE taskSetCreatedAt(Task _task, const time_t _created_at);
  * 
  * @param _task A Task.
  * @param _deadline an constant @c time_t to assign to the Deadline of @p _task
- * @return a @c STATUS_CODE 
+ * @return a @c STATUS_CODE ( @c TASK_UPDATED || @c ERR_TASK) is always returned.
  */
 enum STATUS_CODE taskSetDeadline(Task _task, const time_t _deadline);
 
@@ -110,7 +139,7 @@ enum STATUS_CODE taskSetDeadline(Task _task, const time_t _deadline);
  * 
  * @param _task A Task.
  * @param _status an constant @c int to assign to status of @p _task. (1 if it's completed, 0 otherwise)
- * @return a @c STATUS_CODE 
+ * @return a @c STATUS_CODE ( @c TASK_UPDATED || @c ERR_TASK) is always returned.
  */
 enum STATUS_CODE taskSetStatus(Task _task, const int _status);
 

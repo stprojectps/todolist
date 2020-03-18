@@ -77,6 +77,7 @@ enum STATUS_CODE
     TASK_ADDED,
     TASK_DELETED,
     TASK_UPDATED,
+    TASK_DESTROYED,
 
     /* related to todo */
     TODO_ADDED,
