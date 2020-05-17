@@ -65,33 +65,34 @@ struct __todo
 enum STATUS_CODE
 {
     /* errors */
-    ERR_MAX_TASK,
-    ERR_MAX_TITLE,
-    ERR_MAX_DESC,
-    ERR_SQLR_MAX,
-    ERR_UNKNOWN,
-    ERR_TODO,
-    ERR_TASK,
+    ERR_MAX_TASK,   /* Max task size exceeded */
+    ERR_MAX_TITLE,  /* Max title length exceeded */
+    ERR_MAX_DESC,   /* Max description length exceeded */
+    ERR_SQLR_MAX,   /* Max sql request length exceeded */
+    ERR_UNKNOWN,    /* For unknown error */
+    ERR_TODO,       /*  */
+    ERR_TASK,       /*  */
 
     /* related to tasks */
-    TASK_ADDED,
-    TASK_DELETED,
-    TASK_UPDATED,
-    TASK_DESTROYED,
+    TASK_ADDED,     /* Task successfully added */
+    TASK_DELETED,   /* Task successfully deleted */
+    TASK_UPDATED,   /* Task successfully updated */
+    TASK_DESTROYED, /* Task successfully destroyed */
 
     /* related to todo */
-    TODO_ADDED,
-    TODO_DELETED,
-    TODO_UPDATED,
-    TODO_DESTROYED,
+    TODO_ADDED,     /* Todo successfully added */
+    TODO_DELETED,   /* Todo successfully deleted */
+    TODO_UPDATED,   /* Todo successfully updated*/
+    TODO_DESTROYED, /* Todo successfully destroyed */
 
     /* related to DB*/
-    DB_CLOSED,
-    DB_INITIALIZED,
-    DB_OPENED,
+    DB_CLOSED,      /* Database successfully closed */
+    DB_INITIALIZED, /* Database successfully initialized */
+    DB_OPENED,      /* Database successfully opened */
 
     /* related to sql */
-    SQLR_COMPOSED
+    SQLR_COMPOSED,  /* SQL request successfully composed */
+    SQLR_OP_OK      /* */
 };
 
 /************************** TYPE DEFINITIONS ***************************/

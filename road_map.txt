@@ -36,20 +36,20 @@
 
     @Database Functions
         #General Functions
-            -[] Function that composes sql request. The sql request is a format
+            -[x] Function that composes sql request. The sql request is a format
                 string. For the format string %s and %d are supported.
                 -@param{const char*}                SQL request format string
                 static enum STATUS_CODE dbComposeRequest(const char*, ...);
 
-            -[] Function that initializes database.
+            -[x] Function that initializes database.
                 -@return{enum STATUS_CODE}          STATUS_CODE
                 static enum STATUS_CODE dbInit(void);
 
-            -[] Function to open  database and creates it if it does not exist
+            -[x] Function to open  database and creates it if it does not exist
                 -@return{enum STATUS_CODE}          STATUS_CODE
                 enum STATUS_CODE dbOpen(void);
 
-            -[] Function to close database
+            -[x] Function to close database
                 -@return{enum STATUS_CODE}          STATUS_CODE
                 enum STATUS_CODE dbClose(void);
 
@@ -75,28 +75,29 @@
                 Todo* dbFetchAllTodos(void);
 
         #Tasks Functions
-            -[] Function to add a Task
+            -[x] Function to add a Task
+                -@param{const unsigned int} todo identifier
                 -@param{Task}               A Task
                 -@return{enum STATUS_CODE}  STATUS_CODE
-                enum STATUS_CODE dbAddTask(const Task);
+                enum STATUS_CODE dbAddTask(const unsigned int, const Task);
 
-            -[] Function to update a Task
+            -[x] Function to update a Task
                 -@param{Task}               A Task
                 -@param{unsigned int}       update flag
                 -@return{enum STATUS_CODE}  STATUS_CODE
                 enum STATUS_CODE dbUpdateTask(const Task, const unsigned int);
 
-            -[] Function to delete a Task
+            -[x] Function to delete a Task
                 -@param{unsigned int}       task identifier
                 -@return{enum STATUS_CODE}  STATUS_CODE
                 enum STATUS_CODE dbDeleteTask(const unsigned int);
 
-            -[] Function to delete all Todo's Tasks
+            -[x] Function to delete all Todo's Tasks
                 -@param{unsigned int}       todo identifier
                 -@return{enum STATUS_CODE}  STATUS_CODE
                 enum STATUS_CODE dbDeleteAllTasks(const unsigned int);
 
-            -[] Function to select all Todo's tasks
+            -[x] Function to select all Todo's tasks
                 -@param{unsigned int}   todo identifier
                 -@return{Task *}        Tasks of a Todo
                 Task* dbFetchAllTasks(const unsigned int);
@@ -140,14 +141,17 @@
                 ERR_MAX_DESC,
                 ERR_SQLR_MAX,
                 ERR_TODO,
+                ERR_TASK,
                 ERR_UNKNOWN,
                 TASK_ADDED,
                 TASK_DELETED,
                 TASK_UPDATED,
+                TASK_DESTROYED,
                 TODO_ADDED,
                 TODO_DESTROYED,
                 TODO_UPDATED,
                 SQLR_COMPOSED,
+                SQLR_OP_OK,
                 DB_CLOSED,
                 DB_INITIALIZED,
                 DB_OPENED
