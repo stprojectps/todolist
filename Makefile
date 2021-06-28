@@ -6,15 +6,25 @@
 CC=gcc
 CFLAGS=
 LDFLAGS=-lsqlite3
+
+UNIT_TEST=sql
+OUTDIR=
+EXEC=app
+
 build=
 
+# include directories
+I_SQL=sql/include
+I_CORE=core/include
+I_TOOLS=tools/include
+I_COMMON=common
+I_UNIT_TEST=test/unit_test/include
+
 main_outdir=build
-OUTDIR=
 tools_dir=tools
 sql_dir=sql
 core_dir=core
 test_dir=test
-EXEC=app
 
 # set variables for debug or release
 ifeq ($(build), dev)
@@ -27,7 +37,7 @@ ifeq ($(build), prod)
 endif
 
 # exports variables
-export CFLAGS LDFLAGS OUTDIR CC EXEC
+export CFLAGS LDFLAGS OUTDIR CC EXEC UNIT_TEST I_SQL I_CORE I_TOOLS I_COMMON I_UNIT_TEST
 
 # targets
 all:
@@ -45,7 +55,7 @@ endif
 
 # build target
 compile:
-	@mkdir -p $(OUTDIR)
+	@mkdir -p $(OUTDIR)/src
 	@(cd $(sql_dir) && $(MAKE))
 	@(cd $(tools_dir) && $(MAKE))
 
@@ -58,7 +68,7 @@ release: compile clean
 
 clean:
 	@echo "cleaning debug output ..."
-	@rm -rf $(OUTDIR)/*.o
+	@rm -rf $(OUTDIR)/src/*.o
 	@rm -rf $(OUTDIR)/$(EXEC)
 
 mrproper: clean
