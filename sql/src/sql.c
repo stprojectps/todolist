@@ -154,7 +154,7 @@ dbInit(void)
 
 /**
  * @brief Generic data base operation performer,
- * 
+ *
  * @param _status_code: status code to return on success
  * @param _cb: callback on operation success
  * @param _udata: user data to pass to callback _cb
@@ -203,7 +203,7 @@ dbOperationPerform(
 /***************************** CALLBACKS *******************************/
 
 /**
- * Callback for getting count
+ * @brief Callback for getting count
  */
 static int 
 getCount(void* _udata, int _col_n, char** _col_val, char** _col_name)
@@ -217,7 +217,7 @@ getCount(void* _udata, int _col_n, char** _col_val, char** _col_name)
 }
 
 /**
- * Callback for creating tasks from result
+ * @brief Callback for creating tasks from result
  */
 static int
 createTasksFromSQLResult(
@@ -407,15 +407,6 @@ dbFetchAllTasks(const unsigned int _todo_id, uint32_t* _task_count)
     return tasks;
 }
 
-/**
- * Updates task record in the database. Uses the second parameter
- * to specify what column(s) update. The second parameter can be a mix of
- * flags.
- * 
- * @param _task: task to update.
- * @param _update_flag: column(s) to update.
- * @return TASK_UPDATED on success.
- */
 enum STATUS_CODE
 dbUpdateTask(const Task _task, const unsigned int _update_flag)
 {
