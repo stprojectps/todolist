@@ -7,7 +7,8 @@
 #ifndef H__SQL__H
 #define H__SQL__H
 
-#include "../types.h"
+#include "types.h"
+#include <stdint.h>
 
 /******************************* MACROS ********************************/
 /*
@@ -41,7 +42,7 @@
 #define SQLR_DELETE_ALL_TAKS    "DELETE FROM TASK WHERE todo_id=%d;"
 #define SQLR_DELETE_TASK        "DELETE FROM TASK WHERE id=%d;"
 #define SQLR_DELETE_TODO        "DELETE FROM TODO WHERE id=%d;"
-#define SQLR_FETCH_TASKS_BY     "SELECT * FROM TASK WHERE todo_id=%d"
+#define SQLR_FETCH_TASKS_BY     "SELECT * FROM TASK WHERE todo_id=%d;"
 #define SQLR_GET_TASK_COUNT     "SELECT count(*) FROM TASK;"
 #define SQLR_GET_TODO_COUNT     "SELECT count(*) FROM TODO;"
 #define SQLR_UPDATE_TASK_DESC   "UPDATE TASK SET desc='%s' WHERE id=%d;"
@@ -81,65 +82,73 @@ displayComposedRequest(void);
 /* ------------------------------------------------------------------- */
 
 /**
- * Closes database.
- * 
+ * @brief Closes database.
+ *
  * @return DB_CLOSED on success.
  */
 enum STATUS_CODE
 dbClose(void);
 
 /**
- * Opens database.
- * 
+ * @brief Opens database.
+ *
  * @return DB_OPENED on success.
  */
 enum STATUS_CODE
 dbOpen(void);
 /* ------------------------------------------------------------------- */
 /**
- * Adds task record to the database.
- * 
- * @param _task: new task to add.
- * @param _todo_id: identifier of todo list.
+ * @brief Adds task record to the database.
+ *
+ * @param [in] _task: new task to add.
+ *
+ * @param [in] _todo_id: identifier of todo list.
+ *
  * @return TASK_ADDED on success.
  */
 enum STATUS_CODE
 dbAddTask(const unsigned int _todo_id, const Task _task);
 
 /**
- * Deletes all tasks that belongs to a todo list.
- * 
- * @param _todo_id: identifier of todo list.
+ * @brief Deletes all tasks that belongs to a todo list.
+ *
+ * @param [in] _todo_id: identifier of todo list.
  * @return TASK_DELETED on success.
  */
 enum STATUS_CODE
 dbDeleteAllTasks(const unsigned int _todo_id);
 
 /**
- * Deletes task record from database.
+ * @brief Deletes task record from database.
  * 
- * @param _task_id: identifier of task to delete.
+ * @param [in] _task_id: identifier of task to delete.
+ *
  * @return TASK_DELETED on success, ERR_UNKNOW otherwise.
  */
 enum STATUS_CODE
 dbDeleteTask(const unsigned int _task_id);
 
 /**
- * Gets all tasks that belongs to a todo list.
- * 
- * @param _todo_id: identifier of todo list.
+ * @brief Gets all tasks that belongs to a todo list.
+ *
+ * @param [in] _todo_id - identifier of todo list.
+ *
+ * @param [in] _task_count - The number of fetched task
+ *
  * @return pointer to the first task or NULL.
  */
 Task*
-dbFetchAllTasks(const unsigned int _todo_id);
+dbFetchAllTasks(const unsigned int _todo_id, uint32_t* _task_count);
 
 /**
- * Updates task record in the database. Uses the second parameter
+ * @brief Updates task record in the database. Uses the second parameter
  * to specify what column(s) update. The second parameter can be a mix of
  * flags.
- * 
- * @param _task: task to update.
- * @param _update_flag: column(s) to update.
+ *
+ * @param [in] _task: task to update.
+ *
+ * @param [in] _update_flag: column(s) to update.
+ *
  * @return TASK_UPDATED on success.
  */
 enum STATUS_CODE
@@ -148,38 +157,42 @@ dbUpdateTask(const Task _task, const unsigned int _update_flag);
 /* ------------------------------------------------------------------- */
 
 /**
- * Adds new todo list to the database.
- * 
- * @param _todolist: new todo list to add.
+ * @brief Adds new todo list to the database.
+ *
+ * @param [in] _todolist: new todo list to add.
+ *
  * @return TODO_ADDED on success.
  */
 enum STATUS_CODE
 dbAddTodo(const Todo _todolist);
 
 /**
- * Deletes a todo list from database.
+ * @brief Deletes a todo list from database.
  * 
- * @param _todo_id: identifier of todo list to delete.
+ * @param [in] _todo_id: identifier of todo list to delete.
+ *
  * @return TODO_DELETED on success.
  */
 enum STATUS_CODE
 dbDeleteTodo(const unsigned int _todo_id);
 
 /**
- * Gets all todo lists from the database.
- * 
+ * @brief Gets all todo lists from the database.
+ *
  * @return pointer to the first todo or NULL.
  */
 Todo*
 dbFetchAllTodos(void);
 
 /**
- * Updates todo list record in the database. Uses the second parameter
+ * @brief Updates todo list record in the database. Uses the second parameter
  * to specify what column(s) update. The second parameter can be a mix
  * of flags.
- * 
- * @param _todolist: todo list to update.
- * @param _update_flag: column(s) to update.
+ *
+ * @param [in] _todolist: todo list to update.
+ *
+ * @param [in] _update_flag: column(s) to update.
+ *
  * @return TODO_UPDATED on success.
  */
 enum STATUS_CODE

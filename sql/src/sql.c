@@ -5,43 +5,60 @@
 #include <string.h>
 
 #include "sql.h"
-#include "../tools/memop.h"
+#include "memop.h"
 
 /*************************** Global variable ***************************/
-static sqlite3 *G_DB = NULL;
-static char *G_SQL_ERRMSG;
+static sqlite3* G_DB = NULL;
+static char* G_SQL_ERRMSG = NULL;
 static char G_SQL_REQ[SQLR_MAX];
 static int G_INDEX = 0;
 
 /************************** PRIVATE FUNCTIONS **************************/
 
 /**
- * Creates Task from database information
+ * @brief Creates Task from database information
+ *
+ * @param [in] _task_data: task data from database
  * 
- * char** _task_data: task data from database
+ * @note this function do memory allocation
+ *
+ * @return The new created database
  */
 static Task
 createTaskFromDB(char** _task_data)
 {
-    Task task = (Task) malloc(sizeof(struct __task));
-    tools_memop_bzero(task->title, (size_t) MAX_TITLE);
-    tools_memop_bzero(task->desc, (size_t) MAX_DESC);
-    snprintf(task->title, (MAX_TITLE-1), _task_data[1]);
-    snprintf(task->desc, (MAX_DESC-1), _task_data[2]);
-    task->id = atoi(_task_data[0]);
-    task->created_at = atoi(_task_data[4]);
-    task->modified_at = atoi(_task_data[5]);
-    task->ended_at = atoi(_task_data[6]);
-    task->status = atoi(_task_data[7]);
+    Task task = (Task) new(sizeof(struct __task_t));
+
+    char* id            = _task_data[0];
+    char* title         = _task_data[1];
+    char* description   = _task_data[2];
+    char* created_at    = _task_data[4];
+    char* modified_at   = _task_data[5];
+    char* ended_at      = _task_data[6];
+    char* status        = _task_data[7];
+
+    task->id = atoi(id);
+    snprintf((char*)task->title, (MAX_TITLE-1), "%s", title);
+    snprintf((char*)task->desc, (MAX_DESC-1), "%s", description);
+    task->created_at = atoi(created_at);
+    // modified_at can be null in data base
+    if(modified_at != NULL)
+    {
+        task->modified_at = atoi(modified_at);
+    }
+    task->ended_at = atoi(ended_at);
+    task->status = atoi(status);
 
     return task;
 }
 
 /**
- * Creates valid SQL request from generic sql request passed as first arg
- * @param _generic_request: sql generic req that will be used to create a
+ * @brief Creates valid SQL request from generic sql request passed as first arg
+ *
+ * @param [in] _request: sql generic request that will be used to create a
  * specialized sql request. The specialized request is available in
  * the global variable sql_req.
+ *
  * @return SQLR_COMPOSED on success.
  */
 static enum STATUS_CODE
@@ -105,7 +122,8 @@ dbComposeRequest(const char* _request, ...)
 }
 
 /**
- * Initializes database. Creates database and tables(if not exist).
+ * @brief Initializes database. Creates database and tables(if not exist).
+ *
  * @return DB_OPENED on success, ERR_UNKNOWN otherwise
  */
 static enum STATUS_CODE
@@ -135,7 +153,7 @@ dbInit(void)
 }
 
 /**
- * Generic data base operation performer,
+ * @brief Generic data base operation performer,
  * 
  * @param _status_code: status code to return on success
  * @param _cb: callback on operation success
@@ -174,6 +192,8 @@ dbOperationPerform(
     if(result != SQLITE_OK)
     {
         printf("%s", G_SQL_ERRMSG);
+        sqlite3_free(G_SQL_ERRMSG);
+        G_SQL_ERRMSG = NULL;
         return ERR_UNKNOWN;
     }
 
@@ -188,7 +208,10 @@ dbOperationPerform(
 static int 
 getCount(void* _udata, int _col_n, char** _col_val, char** _col_name)
 {
-    int* count = (int*) _udata;
+    (void) _col_n;
+    (void)_col_name;
+
+    int *count = (int *)_udata;
     *count = atoi(_col_val[0]);
     return 0;
 }
@@ -202,14 +225,29 @@ createTasksFromSQLResult(
     char** _col_val, char** _col_name
 )
 {
+    // disable unused variable
+    (void) _col_n;
+    (void) _col_name;
+
     Task* tasks = (Task*) _udata;
     tasks[G_INDEX++] = createTaskFromDB(_col_val);
     return 0;
 }
 
+// for debug purpose
+static int
+CallbackDebug(void* _udata, int _col_n, char** _col_val, char** _col_name)
+{
+    (void)_col_n;
+    (void)_col_name;
+    (void)_udata;
+    (void)_col_val;
+    return 0;
+}
+
 /************************* PUBLIC FUNCTIONS ****************************/
 
-static void
+void
 displayComposedRequest(void)
 {
     printf("%s\n", G_SQL_REQ);
@@ -219,7 +257,7 @@ displayComposedRequest(void)
 enum STATUS_CODE
 dbClose(void)
 {
-    if((sqlite3_close(G_DB)) != SQLITE_OK) { return DB_CLOSED; }
+    if((sqlite3_close(G_DB)) == SQLITE_OK) { return DB_CLOSED; }
     return ERR_UNKNOWN;
 }
 
@@ -325,13 +363,14 @@ dbDeleteTask(const unsigned int _task_id)
         return ERR_UNKNOWN;
     }
 
-    return dbOperationPerform(TASK_DELETED, NULL, NULL, 1);
+    return dbOperationPerform(TASK_DELETED, CallbackDebug, NULL, 1);
 }
 
-Task*
-dbFetchAllTasks(const unsigned int _todo_id)
+Task *
+dbFetchAllTasks(const unsigned int _todo_id, uint32_t* _task_count)
 {
-    int result, task_count, i;
+    int result;
+    size_t i;
     Task* tasks = NULL;
 
     result = dbComposeRequest(SQLR_GET_TASK_COUNT);
@@ -342,16 +381,16 @@ dbFetchAllTasks(const unsigned int _todo_id)
         return NULL;
     }
 
-    result = dbOperationPerform(SQLR_OP_OK, getCount, &task_count, 1);
+    result = dbOperationPerform(SQLR_OP_OK, getCount, _task_count, 1);
 
     if(result != SQLR_OP_OK)
     {
         return NULL;
     }
 
-    // create arrays of tasks and Null for all fields
-    tasks = (Task*) malloc(sizeof(Task)*(task_count+1));
-    for(i = 0; i <= task_count; i++)
+    // create arrays of tasks and nullifiy all fields
+    tasks = (Task*) malloc(sizeof(Task)*(*_task_count));
+    for(i = 0; i <= *_task_count; i++)
     {
         tasks[i] = NULL;
     }
