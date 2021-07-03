@@ -12,8 +12,8 @@
 
 /******************************* MACROS ********************************/
 
-/*
- * LIMITS OF BUFFERS AND STRING
+/**
+ * @brief LIMITS OF BUFFERS AND STRING
  */
 #define MAX_TITLE               100
 #define MAX_DESC                255
@@ -30,9 +30,8 @@
 
 /**
  *@brief Represents a task
- *
  */
-struct __task
+struct __task_t
 {
     unsigned int id;                    /* task identifier */
     char title[MAX_TITLE];              /* task title */
@@ -44,9 +43,9 @@ struct __task
 };
 
 /**
- *@brief Represents a todo list
+ * @brief Represents a todo list
  */
-struct __todo
+struct __todo_t
 {
     unsigned int id;                    /* todo identifier */
     unsigned int len;                   /* todo length. Number of tasks */
@@ -56,11 +55,11 @@ struct __todo
     time_t modified_at;                 /* todo last modification date */
     time_t ended_at;                    /* todo expiration date */
     unsigned short status;              /* todo status */
-    struct __task tasks[MAX_TASKS];     /* todo tasks */
+    struct __task_t tasks[MAX_TASKS];   /* todo tasks */
 };
 
-/*
- * Different status codes for function
+/**
+ * @brief Different status codes for function
  */
 enum STATUS_CODE
 {
@@ -96,7 +95,7 @@ enum STATUS_CODE
 };
 
 /************************** TYPE DEFINITIONS ***************************/
-typedef struct __task* Task;
-typedef struct __todo* Todo;
+typedef struct __task_t* Task;
+typedef struct __todo_t* Todo;
 
 #endif /* H__TYPES__H */
