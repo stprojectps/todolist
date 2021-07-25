@@ -8,6 +8,15 @@
 #include "memop.h"
 
 /*************************** Global variable ***************************/
+static struct db_info_t
+{
+    sqlite3*    database;
+    char*       sqlite_error_message;
+    char        sql_request[SQLR_MAX];
+    int         index;
+    int         dbInit;
+} G_DB_INFO;
+
 static sqlite3* G_DB = NULL;
 static char* G_SQL_ERRMSG = NULL;
 static char G_SQL_REQ[SQLR_MAX];

@@ -2,14 +2,14 @@
 #include <string.h>
 #include <time.h>
 
-#include "../sql/sql.h"
+#include "sql.h"
 #include "task.h"
 #include "todo.h"
 
 
 Todo todoInit(void)
 {
-    Todo _todo = (Todo) malloc(sizeof(struct __todo));
+    Todo _todo = (Todo) malloc(sizeof(struct __todo_t));
 
     _todo->id               = 0;
     _todo->len              = 0;
@@ -115,7 +115,7 @@ enum STATUS_CODE todoAddTask(Todo _todo, const Task _task)
 {
     if (_todo && _task)
     {
-        if (dbAddTask(_task) == TASK_ADDED)
+        if (dbAddTask(_todo->id, _task) == TASK_ADDED)
         {
             _todo->tasks[_todo->len] = *_task;
             _todo->len += 1;
@@ -131,12 +131,12 @@ enum STATUS_CODE todoDeleteTask(Todo _todo, const Task _task)
     int task_found = 0;
     if (_todo && _task)
     {
-        for (int i = 1; i < _todo->len; i++)
+        for (unsigned int i = 1; i < _todo->len; i++)
         {
             if (_todo->tasks[i].id == _task->id)
             {
                 task_found = 1;
-                for (int k = i+1; k < _todo->len; k++)
+                for (unsigned int k = i+1; k < _todo->len; k++)
                 {
                     _todo->tasks[i] = _todo->tasks[k];
                     i++;
@@ -169,7 +169,7 @@ enum STATUS_CODE todoDeleteTasks(Todo _todo)
         Task T = taskInit(NULL);
         if (T)
         {
-            for (int i = 0; i < _todo->len; i++)
+            for (unsigned int i = 0; i < _todo->len; i++)
             {
                 _todo->tasks[i] = *T;
             }

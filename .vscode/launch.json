@@ -2,17 +2,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug sql",
+      "name": "Debug unit test",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/app",
+      "program": "${workspaceFolder}/build/test/suite",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${workspaceFolder}/build/",
+      "cwd": "${workspaceFolder}/build/test",
       "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",
-      "preLaunchTask": "Build dev test sql",
       "miDebuggerPath": "gdb",
       "setupCommands": [
         {

@@ -1,0 +1,75 @@
+{
+   "buildType": {
+      "default": "debug",
+      "choices": { 
+         "debug": {
+            "short": "Debug",
+            "long": "Emit debug information without performing optimizations",
+            "buildType": "Debug"
+         },
+         "minsize": {
+            "short": "MinSizeRel",
+            "long": "Optimize for smallest binary size",
+            "buildType": "MinSizeRel"
+         },
+         "reldeb": {
+            "short": "RelWithDebInfo",
+            "long": "Perform optimizations AND include debugging information",
+            "buildType": "RelWithDebInfo"
+         },
+         "release": {
+            "short": "Release",
+            "long": "Release version",
+            "buildType": "Release"
+         }
+      }
+   },
+
+   "Platform": {
+      "default": "suite",
+
+      "choices": {
+         "suite": {
+            "short": "suite",
+            "long": "Build unit test",
+            "settings": {
+               "BUILD_UNIT_TEST" : true,
+               "BUILD_SQL_TEST"  : false
+            }
+         },
+
+         "app": {
+            "short": "app",
+            "long": "Build App",
+            "settings": {
+               "BUILD_UNIT_TEST" : false,
+               "BUILD_SQL_TEST"  : false
+            }
+         }
+      }
+   },
+
+   "Verbosity":{
+      "default": "quiet",
+      "choices": {
+  
+         "quiet": {
+            "short": "quiet",
+            "long": "quiet compilation",
+            "settings": {
+               "CMAKE_VERBOSE_MAKEFILE": false
+            }
+         },
+         "verbose": {
+            "short": "verbose",
+            "long": "verbose compilation",
+            "settings": {
+               "CMAKE_VERBOSE_MAKEFILE": true
+            },
+            "env": {
+               "VERBOSE": "1"
+            }
+         }
+      }
+   }
+}

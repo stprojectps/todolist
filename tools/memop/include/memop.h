@@ -4,8 +4,8 @@
  ************************************************************************
  * This header groups functions that handle some memory operation.
  */
-#ifndef H__TOOLS__H
-#define H__TOOLS__H
+#ifndef H__MEMOP__H
+#define H__MEMOP__H
 
 #include <string.h>
 
@@ -36,4 +36,4 @@ void* new(const size_t _mem_size);
  */
 void delete (void** _mem);
 
-#endif /* H__TOOLS__H */
+#endif /* H__MEMOP__H */

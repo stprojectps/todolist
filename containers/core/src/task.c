@@ -1,17 +1,17 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <stdio.h>
 
-#include "../sql/sql.h"
+#include "sql.h"
 #include "task.h"
-
 
 Task taskInit(Task _task)
 {
     if (_task == NULL)
     {
         printf("pointeur existant \n");
-        Task _task = (Task) malloc(sizeof(struct __task));
+        Task _task = (Task) malloc(sizeof(struct __task_t));
         _task->id               = 0;
         _task->created_at       = 0;
         _task->modified_at      = 0;

@@ -1,6 +1,12 @@
 {
     "files.associations": {
         "task.h": "c",
-        "sqlite3.h": "c"
+        "sqlite3.h": "c",
+        "stdint.h": "c",
+        "vector_base.h": "c",
+        "memop.h": "c",
+        "sql.h": "c",
+        "tools.h": "c",
+        "types.h": "c"
     }
 }

@@ -6,7 +6,7 @@
             "label": "Build dev test sql",
             "command": "make",
             "args": [
-                "build=dev", "UNIT_TEST=sql"
+                "build=dev", "UNIT_TEST=vector"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
