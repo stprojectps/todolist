@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug unit test",
+      "name": "Debug unit test: external console",
       "type": "cppdbg",
       "request": "launch",
       "program": "${command:cmake.launchTargetPath}",
@@ -11,6 +11,26 @@
       "cwd": "${command:cmake.launchTargetDirectory}",
       "environment": [],
       "externalConsole": true,
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "Debug unit test: internal console",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${command:cmake.launchTargetPath}",
+      "args": [],
+      "stopAtEntry": true,
+      "cwd": "${command:cmake.launchTargetDirectory}",
+      "environment": [],
+      "externalConsole": false,
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

@@ -25,6 +25,23 @@
       }
    },
 
+   "linkage":
+   {
+      "default": "static",
+      "choices": {
+         "static":{
+            "short": "Static",
+            "long": "Create static libraries",
+            "linkage": "static"
+         },
+         "shared":{
+            "short": "shared",
+            "long": "Create shared libraries",
+            "linkage": "shared"
+         }
+      }
+   },
+
    "Platform": {
       "default": "suite",
 
@@ -35,6 +52,15 @@
             "settings": {
                "BUILD_UNIT_TEST" : true,
                "BUILD_SQL_TEST"  : false
+            }
+         },
+
+         "db_units": {
+            "short": "Db units",
+            "long": "Unit tests for database api",
+            "settings": {
+               "BUILD_UNIT_TEST" : true,
+               "BUILD_SQL_TEST"  : true
             }
          },
 
