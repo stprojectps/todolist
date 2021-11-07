@@ -7,6 +7,8 @@
         "memop.h": "c",
         "sql.h": "c",
         "tools.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "string.h": "c",
+        "stdlib.h": "c"
     }
 }
