@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
+# project name and descriptions
 project(TodoList
     VERSION 0.1.0
     DESCRIPTION "\"Todo list app\""
@@ -10,7 +11,7 @@ project(TodoList
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
-add_compile_options(-W -Wall -pedantic -lsqlite3)
+add_compile_options(-W -Wall -pedantic)
 option(BUILD_UNIT_TEST "Build unit test" OFF)
 option(BUILD_SQL_TEST  "Build sql unit test" OFF)
 
@@ -32,9 +33,9 @@ endif(BUILD_UNIT_TEST)
 
 
 #installation part; to be consolidate
-install(TARGETS suite DESTINATION ${PROJECT_ROOT_DIRECTORY}/build/bin)
-include(InstallRequiredSystemLibraries)
-set(CPACK_PACKAGE_VERSION_MAJOR "${TodoList_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${TodoList_VERSION_MINOR}")
-set(CPACK_PACKAGE_VERSION_PATCH "${TodoList_VERSION_PATCH}")
-include(CPack)
+# install(TARGETS ${EXEC_NAME} DESTINATION ${PROJECT_ROOT_DIRECTORY}/build/bin)
+# include(InstallRequiredSystemLibraries)
+# set(CPACK_PACKAGE_VERSION_MAJOR "${TodoList_VERSION_MAJOR}")
+# set(CPACK_PACKAGE_VERSION_MINOR "${TodoList_VERSION_MINOR}")
+# set(CPACK_PACKAGE_VERSION_PATCH "${TodoList_VERSION_PATCH}")
+# include(CPack)
